@@ -19,6 +19,63 @@ import {setLocale} from './Locale';
 import deepEqual from 'deep-equal';
 import Button from 'react-native-button';
 
+const defaultStyle = {
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
+  listView: {
+    flex: 1,
+  },
+  textInputContainer: {
+    height: 44,
+    borderTopWidth: 1 / PixelRatio.get(),
+    borderColor: '#b2b2b2',
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  textInput: {
+    alignSelf: 'center',
+    height: 30,
+    width: 100,
+    backgroundColor: '#FFF',
+    flex: 1,
+    padding: 0,
+    margin: 0,
+    fontSize: 15,
+  },
+  sendButton: {
+    marginTop: 11,
+    marginLeft: 10,
+  },
+  date: {
+    color: '#aaaaaa',
+    fontSize: 12,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  link: {
+    color: '#007aff',
+    textDecorationLine: 'underline',
+  },
+  linkLeft: {
+    color: '#000',
+  },
+  linkRight: {
+    color: '#fff',
+  },
+  loadEarlierMessages: {
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadEarlierMessagesButton: {
+    fontSize: 14,
+  },
+};
+
 class GiftedMessenger extends Component {
 
   constructor(props) {
@@ -72,64 +129,8 @@ class GiftedMessenger extends Component {
   }
 
   componentWillMount() {
-    this.styles = {
-      container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-      },
-      listView: {
-        flex: 1,
-      },
-      textInputContainer: {
-        height: 44,
-        borderTopWidth: 1 / PixelRatio.get(),
-        borderColor: '#b2b2b2',
-        flexDirection: 'row',
-        paddingLeft: 10,
-        paddingRight: 10,
-      },
-      textInput: {
-        alignSelf: 'center',
-        height: 30,
-        width: 100,
-        backgroundColor: '#FFF',
-        flex: 1,
-        padding: 0,
-        margin: 0,
-        fontSize: 15,
-      },
-      sendButton: {
-        marginTop: 11,
-        marginLeft: 10,
-      },
-      date: {
-        color: '#aaaaaa',
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 8,
-      },
-      link: {
-        color: '#007aff',
-        textDecorationLine: 'underline',
-      },
-      linkLeft: {
-        color: '#000',
-      },
-      linkRight: {
-        color: '#fff',
-      },
-      loadEarlierMessages: {
-        height: 44,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      loadEarlierMessagesButton: {
-        fontSize: 14,
-      },
-    };
-
-    Object.assign(this.styles, this.props.styles);
+    this.styles = {}
+    Object.assign(this.styles, defaultStyle, this.props.styles);
 
     if (this.props.dateLocale !== '')
       setLocale(this.props.dateLocale);
@@ -144,6 +145,9 @@ class GiftedMessenger extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.styles = {}
+    Object.assign(this.styles, defaultStyle, nextProps.styles);
+
     if (nextProps.typingMessage !== this.props.typingMessage) {
       if (this.isLastMessageVisible()) {
         this._scrollToBottomOnNextRender = true;
@@ -182,13 +186,13 @@ class GiftedMessenger extends Component {
       }).start();
     }
 
-    if (nextProps.hideTextInput && !this.props.hideTextInput) {
+    if (nextProps.hideTextInput && (!this.props.hideTextInput || nextProps.maxHeight !== this.props.maxHeight)) {
       this.listViewMaxHeight += textInputHeight;
 
       this.setState({
         height: new Animated.Value(this.listViewMaxHeight),
       });
-    } else if (!nextProps.hideTextInput && this.props.hideTextInput) {
+    } else if (!nextProps.hideTextInput && (this.props.hideTextInput || nextProps.maxHeight !== this.props.maxHeight)) {
       this.listViewMaxHeight -= textInputHeight;
 
       this.setState({
