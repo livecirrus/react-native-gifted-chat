@@ -80,7 +80,7 @@ export default class Message extends Component {
         diffMessage = null; // force rendering
       }
 
-      if (diffMessage === null || (diffMessage !== null && (rowData.name !== diffMessage.name || rowData.uniqueId !== diffMessage.uniqueId))) {
+      if (diffMessage === null || (diffMessage !== null && (rowData.name !== diffMessage.name))) {
         if (typeof onImagePress === 'function') {
           return (
             <TouchableHighlight
