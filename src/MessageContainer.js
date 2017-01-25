@@ -144,13 +144,14 @@ export default class MessageContainer extends React.Component {
           automaticallyAdjustContentInsets={false}
           initialListSize={20}
           pageSize={20}
-
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-end'}}
           dataSource={this.state.dataSource}
 
           renderRow={this.renderRow}
           renderHeader={this.renderFooter}
           renderFooter={this.renderLoadEarlier}
           renderScrollComponent={this.renderScrollComponent}
+          {...this.props.listViewProps}
         />
       </View>
     );
@@ -169,6 +170,7 @@ MessageContainer.defaultProps = {
 MessageContainer.propTypes = {
   messages: React.PropTypes.array,
   user: React.PropTypes.object,
+  listViewProps: React.PropTypes.object,
   renderFooter: React.PropTypes.func,
   renderMessage: React.PropTypes.func,
   onLoadEarlier: React.PropTypes.func,
