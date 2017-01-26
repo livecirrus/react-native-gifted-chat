@@ -55,6 +55,13 @@ export default class GiftedAvatar extends React.Component {
           style={[defaultStyles.avatarStyle, this.props.avatarStyle]}
         />
       );
+    } else {
+      return (
+        <Image
+          source={this.props.user.avatar}
+          style={[defaultStyles.avatarStyle, this.props.avatarStyle]}
+        />
+      );
     }
     return null;
   }
