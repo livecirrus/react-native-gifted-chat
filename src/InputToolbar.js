@@ -10,7 +10,7 @@ import Actions from './Actions';
 
 export default class InputToolbar extends React.Component {
   renderActions() {
-    conse defaultRender = () => {
+    const defaultRender = () => {
       if (this.props.onPressActionButton) {
         return <Actions {...this.props} />;
       }
