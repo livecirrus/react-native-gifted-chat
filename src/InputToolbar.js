@@ -10,31 +10,40 @@ import Actions from './Actions';
 
 export default class InputToolbar extends React.Component {
   renderActions() {
-    if (this.props.renderActions) {
-      return this.props.renderActions(this.props);
-    } else if (this.props.onPressActionButton) {
-      return <Actions {...this.props} />;
+    conse defaultRender = () => {
+      if (this.props.onPressActionButton) {
+        return <Actions {...this.props} />;
+      }
+      return null;
     }
-    return null;
+    if (this.props.renderActions) {
+      return this.props.renderActions({defaultRender, ...this.props});
+    }
+    return defaultRender();
   }
 
   renderSend() {
-    if (this.props.renderSend) {
-      return this.props.renderSend(this.props);
+    const defaultRender = () => {
+      return <Send {...this.props}/>;
     }
-    return <Send {...this.props}/>;
+    if (this.props.renderSend) {
+      return this.props.renderSend({defaultRender, ...this.props});
+    }
+    return defaultRender();
   }
 
   renderComposer() {
-    if (this.props.renderComposer) {
-      return this.props.renderComposer(this.props);
+    const defaultRender = () => {
+      return (
+        <Composer
+          {...this.props}
+        />
+      );
     }
-
-    return (
-      <Composer
-        {...this.props}
-      />
-    );
+    if (this.props.renderComposer) {
+      return this.props.renderComposer({defaultRender, ...this.props});
+    }
+    return defaultRender();
   }
 
   renderAccessory() {

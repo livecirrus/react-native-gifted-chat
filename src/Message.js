@@ -15,30 +15,39 @@ export default class Message extends React.Component {
   renderDay() {
     if (this.props.currentMessage.createdAt) {
       const {containerStyle, ...dayProps} = this.props;
+      const defaultRender = () => {
+        return <Day {...dayProps}/>;
+      }
       if (this.props.renderDay) {
         return this.props.renderDay({
           ...dayProps,
+          defaultRender,
           //TODO: remove in next major release
           isSameUser: warnDeprecated(isSameUser),
           isSameDay: warnDeprecated(isSameDay)
         });
       }
-      return <Day {...dayProps}/>;
+      return defaultRender();
     }
     return null;
   }
 
   renderBubble() {
     const {containerStyle, ...bubbleProps} = this.props;
+    const defaultRender = () => {
+      return <Bubble {...bubbleProps}/>;
+    };
+
     if (this.props.renderBubble) {
       return this.props.renderBubble({
         ...bubbleProps,
+        defaultRender,
         //TODO: remove in next major release
         isSameUser: warnDeprecated(isSameUser),
         isSameDay: warnDeprecated(isSameDay)
       });
     }
-    return <Bubble {...bubbleProps}/>;
+    return defaultRender();
   }
 
   renderAvatar() {

@@ -377,15 +377,17 @@ class GiftedChat extends React.Component {
       onChange: this.onType,
       onSend: this.onSend,
     };
-
-    if (this.props.renderInputToolbar) {
-      return this.props.renderInputToolbar(inputToolbarProps);
+    const defaultRender = () => {
+      return (
+        <InputToolbar
+          {...inputToolbarProps}
+        />
+      );
     }
-    return (
-      <InputToolbar
-        {...inputToolbarProps}
-      />
-    );
+    if (this.props.renderInputToolbar) {
+      return this.props.renderInputToolbar({defaultRender, ...inputToolbarProps});
+    }
+    return defaultRender();
   }
 
   renderChatFooter() {

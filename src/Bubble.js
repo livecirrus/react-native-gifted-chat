@@ -35,10 +35,13 @@ export default class Bubble extends React.Component {
   renderMessageText() {
     if (this.props.currentMessage.text) {
       const {containerStyle, wrapperStyle, ...messageTextProps} = this.props;
+      const defaultRender = () => {
+        return <MessageText {...messageTextProps}/>;
+      };
       if (this.props.renderMessageText) {
-        return this.props.renderMessageText(messageTextProps);
+        return this.props.renderMessageText({defaultRender, ...messageTextProps});
       }
-      return <MessageText {...messageTextProps}/>;
+      return defaultRender();
     }
     return null;
   }
@@ -46,10 +49,13 @@ export default class Bubble extends React.Component {
   renderMessageImage() {
     if (this.props.currentMessage.image) {
       const {containerStyle, wrapperStyle, ...messageImageProps} = this.props;
+      const defaultRender = () => {
+        return <MessageImage {...messageImageProps}/>;
+      };
       if (this.props.renderMessageImage) {
-        return this.props.renderMessageImage(messageImageProps);
+        return this.props.renderMessageImage({defaultRender, ...messageImageProps});
       }
-      return <MessageImage {...messageImageProps}/>;
+      return defaultRender();
     }
     return null;
   }
@@ -57,10 +63,13 @@ export default class Bubble extends React.Component {
   renderTime() {
     if (this.props.currentMessage.createdAt) {
       const {containerStyle, wrapperStyle, ...timeProps} = this.props;
-      if (this.props.renderTime) {
-        return this.props.renderTime(timeProps);
+      const defaultRender = () => {
+        return <Time {...timeProps}/>;
       }
-      return <Time {...timeProps}/>;
+      if (this.props.renderTime) {
+        return this.props.renderTime({defaultRender, ...timeProps});
+      }
+      return defaultRender();
     }
     return null;
   }

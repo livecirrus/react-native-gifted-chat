@@ -84,14 +84,19 @@ export default class MessageContainer extends React.Component {
   renderLoadEarlier() {
     if (this.props.loadEarlier === true) {
       const loadEarlierProps = {
-        ...this.props,
+        renderLoadEarlier, ...this.props,
       };
+
+      const defaultRender = () => {
+        return (
+          <LoadEarlier {...loadEarlierProps}/>
+        );
+      };
+
       if (this.props.renderLoadEarlier) {
-        return this.props.renderLoadEarlier(loadEarlierProps);
+        return this.props.renderLoadEarlier({defaultRender, ...loadEarlierProps});
       }
-      return (
-        <LoadEarlier {...loadEarlierProps}/>
-      );
+      return defaultRender()
     }
     return null;
   }
@@ -117,11 +122,15 @@ export default class MessageContainer extends React.Component {
       nextMessage: message.nextMessage,
       position: message.user._id === this.props.user._id ? 'right' : 'left',
     };
+    const defaultRender = () => {
+      return <Message {...messageProps}/>;
+    };
 
     if (this.props.renderMessage) {
-      return this.props.renderMessage(messageProps);
+      return this.props.renderMessage({defaultRender, ...messageProps});
     }
-    return <Message {...messageProps}/>;
+    return defaultRender();
+
   }
 
   renderScrollComponent(props) {

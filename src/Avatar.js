@@ -11,16 +11,20 @@ import { isSameUser, isSameDay, warnDeprecated } from './utils';
 
 export default class Avatar extends React.Component {
   renderAvatar() {
+    const defaultRender = () => {
+      return (
+        <GiftedAvatar
+          avatarStyle={StyleSheet.flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
+          user={this.props.currentMessage.user}
+        />
+      );
+    };
+
     if (this.props.renderAvatar) {
       const {renderAvatar, ...avatarProps} = this.props;
-      return this.props.renderAvatar(avatarProps);
+      return this.props.renderAvatar({defaultrender, ...avatarProps});
     }
-    return (
-      <GiftedAvatar
-        avatarStyle={StyleSheet.flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
-        user={this.props.currentMessage.user}
-      />
-    );
+    return defaultRender();
   }
 
   render() {
