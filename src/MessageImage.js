@@ -22,7 +22,7 @@ export default class MessageImage extends React.Component {
           <Image
             {...this.props.imageProps}
             style={[styles.image, this.props.imageStyle]}
-            source={{uri: this.props.currentMessage.image}}
+            source={typeof this.props.currentMessage.image == 'string' ? {uri: this.props.currentMessage.image} : this.props.currentMessage.image}
           />
         </Lightbox>
       </View>
