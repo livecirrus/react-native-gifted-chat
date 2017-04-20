@@ -15,7 +15,7 @@ export default class MessageImage extends React.Component {
       <View style={[styles.container, this.props.containerStyle]}>
         <Lightbox
           activeProps={{
-            style: [styles.imageActive, { width, height }],
+            style: [styles.imageActive, { width, height }, this.props.imageActiveStyle],
           }}
           {...this.props.lightboxProps}
         >
@@ -51,6 +51,7 @@ MessageImage.defaultProps = {
   },
   containerStyle: {},
   imageStyle: {},
+  imageActiveStyle: {},
   imageProps: {},
   lightboxProps: {},
 };
@@ -59,6 +60,7 @@ MessageImage.propTypes = {
   currentMessage: React.PropTypes.object,
   containerStyle: View.propTypes.style,
   imageStyle: Image.propTypes.style,
+  imageActiveStyle: Image.propTypes.style,
   imageProps: React.PropTypes.object,
   lightboxProps: React.PropTypes.object,
 };
