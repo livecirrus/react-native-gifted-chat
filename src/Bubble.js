@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Text,
   Clipboard,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -60,6 +61,24 @@ export default class Bubble extends React.Component {
     return null;
   }
 
+  renderTicks() {
+    const {currentMessage} = this.props;
+    if (this.props.renderTicks) {
+        return this.props.renderTicks(currentMessage);
+    }
+    if (currentMessage.user._id !== this.props.user._id) {
+        return;
+    }
+    if (currentMessage.sent || currentMessage.received) {
+      return (
+        <View style={styles.tickView}>
+          {currentMessage.sent && <Text style={[styles.tick, this.props.tickStyle]}>✓</Text>}
+          {currentMessage.received && <Text style={[styles.tick, this.props.tickStyle]}>✓</Text>}
+        </View>
+      )
+    }
+  }
+
   renderTime() {
     if (this.props.currentMessage.createdAt) {
       const {containerStyle, wrapperStyle, ...timeProps} = this.props;
@@ -83,7 +102,7 @@ export default class Bubble extends React.Component {
 
   onLongPress() {
     if (this.props.onLongPress) {
-      this.props.onLongPress(this.context);
+      this.props.onLongPress(this.context, this.props.currentMessage);
     } else {
       if (this.props.currentMessage.text) {
         const options = [
@@ -119,7 +138,10 @@ export default class Bubble extends React.Component {
               {this.renderCustomView()}
               {this.renderMessageImage()}
               {this.renderMessageText()}
-              {this.renderTime()}
+              <View style={[styles.bottom, this.props.bottomContainerStyle[this.props.position]]}>
+                {this.renderTime()}
+                {this.renderTicks()}
+              </View>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -167,6 +189,19 @@ const styles = {
       borderTopRightRadius: 3,
     },
   }),
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  tick: {
+    fontSize: 10,
+    backgroundColor: 'transparent',
+    color: 'white',
+  },
+  tickView: {
+    flexDirection: 'row',
+    marginRight: 10,
+  }
 };
 
 Bubble.contextTypes = {
@@ -190,6 +225,8 @@ Bubble.defaultProps = {
   previousMessage: {},
   containerStyle: {},
   wrapperStyle: {},
+  bottomContainerStyle: {},
+  tickStyle: {},
   containerToNextStyle: {},
   containerToPreviousStyle: {},
   //TODO: remove in next major release
@@ -216,6 +253,11 @@ Bubble.propTypes = {
     left: View.propTypes.style,
     right: View.propTypes.style,
   }),
+  bottomContainerStyle: React.PropTypes.shape({
+    left: View.propTypes.style,
+    right: View.propTypes.style,
+  }),
+  tickStyle: Text.propTypes.style,
   containerToNextStyle: React.PropTypes.shape({
     left: View.propTypes.style,
     right: View.propTypes.style,
