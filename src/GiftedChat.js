@@ -421,6 +421,7 @@ class GiftedChat extends React.Component {
           {...inputToolbarProps}
         />
       );
+    }
     if (this.getIsTypingDisabled()) {
       inputToolbarProps.textInputProps.maxLength = 0;
     }
@@ -451,33 +452,7 @@ class GiftedChat extends React.Component {
     if (this.state.isInitialized === true) {
       return (
         <ActionSheet ref={component => this._actionSheetRef = component}>
-<<<<<<< HEAD
-          <View
-            style={styles.container}
-            onLayout={(e) => {
-              const layout = e.nativeEvent.layout;
-              this.setMaxHeight(layout.height);
-              if (this.props.isAnimated === true) {
-                this.state.messagesContainerHeight.stopAnimation(() => {
-                  const newMessagesContainerHeight = (this.getMaxHeight() - (this.state.composerHeight + (this.getMinInputToolbarHeight() - MIN_COMPOSER_HEIGHT))) - this.getKeyboardHeight() + this.getBottomOffset();
-                  this.setState({
-                    messagesContainerHeight: this.prepareMessagesContainerHeight(newMessagesContainerHeight),
-                  });
-                })
-              } else {
-                const newMessagesContainerHeight = (this.getMaxHeight() - (this.state.composerHeight + (this.getMinInputToolbarHeight() - MIN_COMPOSER_HEIGHT))) - this.getKeyboardHeight() + this.getBottomOffset();
-                this.setState({
-                  messagesContainerHeight: this.prepareMessagesContainerHeight(newMessagesContainerHeight),
-                });
-              }
-              if (this.getIsFirstLayout() === true) {
-                this.setIsFirstLayout(false);
-              }
-            }}
-          >
-=======
           <View style={styles.container} onLayout={this.onMainViewLayout}>
->>>>>>> upstream/master
             {this.renderMessages()}
             {this.renderInputToolbar()}
           </View>
