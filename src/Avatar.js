@@ -17,7 +17,7 @@ export default class Avatar extends React.Component {
 
     if (this.props.renderAvatar) {
       const {renderAvatar, ...avatarProps} = this.props;
-      return this.props.renderAvatar({defaultrender, ...avatarProps});
+      return this.props.renderAvatar({defaultRender, ...avatarProps});
     }
     return defaultRender();
   }
