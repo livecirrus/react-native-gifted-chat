@@ -295,7 +295,10 @@ class GiftedChat extends React.Component {
         <MessageContainer
           {...this.props}
 
-          invertibleScrollViewProps={this.invertibleScrollViewProps}
+          invertibleScrollViewProps={{
+            ...this.invertibleScrollViewProps,
+            ...this.props.invertibleScrollViewProps
+          }}
 
           messages={this.getMessages()}
 
@@ -479,6 +482,8 @@ GiftedChat.childContextTypes = {
 };
 
 GiftedChat.defaultProps = {
+  invertibleScrollViewProps: {},
+  listViewProps: {},
   messages: [],
   onSend: () => {
   },
@@ -520,6 +525,8 @@ GiftedChat.defaultProps = {
 };
 
 GiftedChat.propTypes = {
+  invertibleScrollViewProps: React.PropTypes.object,
+  listViewProps: React.PropTypes.object,
   messages: React.PropTypes.array,
   onSend: React.PropTypes.func,
   onInputTextChanged: React.PropTypes.func,
