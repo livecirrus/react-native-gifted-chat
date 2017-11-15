@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
   ListView,
   View,
+  StyleSheet,
 } from 'react-native';
 
 import shallowequal from 'shallowequal';
@@ -110,7 +112,9 @@ export default class MessageContainer extends React.Component {
       console.warn('GiftedChat: `_id` is missing for message', JSON.stringify(message));
     }
     if (!message.user) {
-      console.warn('GiftedChat: `user` is missing for message', JSON.stringify(message));
+      if (!message.system) {
+        console.warn("GiftedChat: `user` is missing for message", JSON.stringify(message));
+      }
       message.user = {};
     }
 
@@ -146,7 +150,10 @@ export default class MessageContainer extends React.Component {
 
   render() {
     return (
-      <View ref='container' style={{flex:1}}>
+      <View
+        ref='container'
+        style={styles.container}
+      >
         <ListView
           enableEmptySections={true}
           automaticallyAdjustContentInsets={false}
@@ -169,22 +176,27 @@ export default class MessageContainer extends React.Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
+
 MessageContainer.defaultProps = {
   messages: [],
   user: {},
   renderFooter: null,
   renderMessage: null,
-  listViewProps: {},
   onLoadEarlier: () => {
   },
 };
 
 MessageContainer.propTypes = {
-  messages: React.PropTypes.array,
-  user: React.PropTypes.object,
-  listViewProps: React.PropTypes.object,
-  renderFooter: React.PropTypes.func,
-  renderMessage: React.PropTypes.func,
-  onLoadEarlier: React.PropTypes.func,
-  listViewProps: React.PropTypes.object,
+  listViewProps: PropTypes.object,
+  messages: PropTypes.array,
+  user: PropTypes.object,
+  renderFooter: PropTypes.func,
+  renderMessage: PropTypes.func,
+  onLoadEarlier: PropTypes.func,
+  listViewProps: PropTypes.object,
 };
