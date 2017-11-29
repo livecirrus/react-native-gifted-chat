@@ -44,7 +44,7 @@ export default class InputToolbar extends React.Component {
       position: 'absolute'
     });
   }
-  
+
   renderActions() {
     const defaultRender = () => {
       if (this.props.onPressActionButton) {
@@ -96,7 +96,7 @@ export default class InputToolbar extends React.Component {
   render() {
     return (
       <View
-        style={[styles.container, this.props.containerStyle, { position: this.state.position }]}>
+        style={[styles.container, this.props.inputContainerStyle, { position: this.state.position }]}>
         <View style={[styles.primary, this.props.primaryStyle]}>
           {this.renderActions()}
           {this.renderComposer()}
@@ -130,7 +130,7 @@ InputToolbar.defaultProps = {
   renderActions: null,
   renderSend: null,
   renderComposer: null,
-  containerStyle: {},
+  inputContainerStyle: {},
   primaryStyle: {},
   accessoryStyle: {},
 };
@@ -141,7 +141,7 @@ InputToolbar.propTypes = {
   renderSend: PropTypes.func,
   renderComposer: PropTypes.func,
   onPressActionButton: PropTypes.func,
-  containerStyle: ViewPropTypes.style,
+  inputContainerStyle: ViewPropTypes.style,
   primaryStyle: ViewPropTypes.style,
   accessoryStyle: ViewPropTypes.style,
 };
